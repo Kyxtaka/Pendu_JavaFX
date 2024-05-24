@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.Region;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData ;
@@ -134,11 +133,34 @@ public class Pendu extends Application {
     // /**
      // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
      // */
-    // private Pane fenetreAccueil(){
-        // A implementer    
-        // Pane res = new Pane();
-        // return res;
-    // }
+    private Pane fenetreAccueil(){
+        Pane res = new Pane();
+        VBox homeContainer =  new VBox();
+        Button lauchGame  = new Button("Lancer une Partie");
+
+        VBox levelChooser =  new VBox();
+        ToggleGroup buttonGroup =  new ToggleGroup();
+
+        RadioButton facileButton =  new RadioButton("Facile") ;
+        facileButton.setSelected(true);
+        facileButton.setToggleGroup(buttonGroup);
+
+        RadioButton mediumButton =  new RadioButton("Facile") ;
+        mediumButton.setToggleGroup(buttonGroup);
+
+        RadioButton difficileButton =  new RadioButton("Facile") ;
+        difficileButton.setToggleGroup(buttonGroup);
+
+        RadioButton expertButton =  new RadioButton("Facile") ;
+        expertButton.setToggleGroup(buttonGroup);
+
+        levelChooser.getChildren().addAll(facileButton,mediumButton,difficileButton,expertButton);
+        TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
+        
+        homeContainer.getChildren().addAll(lauchGame, levelContainer);
+        res.getChildren().add(homeContainer);
+        return res;
+    }
 
     /**
      * charge les images à afficher en fonction des erreurs
