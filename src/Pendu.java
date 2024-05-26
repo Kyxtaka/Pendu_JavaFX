@@ -97,8 +97,6 @@ public class Pendu extends Application {
      */
     private Scene laScene(){
         BorderPane fenetre = new BorderPane();
-        fenetre.setTop(this.titre());
-        fenetre.setCenter(this.panelCentral);
         return new Scene(fenetre, 800, 1000);
     }
 
@@ -134,7 +132,7 @@ public class Pendu extends Application {
      // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
      // */
     private Pane fenetreAccueil(){
-        Pane res = new Pane();
+        BorderPane res = new BorderPane();
         VBox homeContainer =  new VBox();
         Button lauchGame  = new Button("Lancer une Partie");
 
@@ -158,7 +156,8 @@ public class Pendu extends Application {
         TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
         
         homeContainer.getChildren().addAll(lauchGame, levelContainer);
-        res.getChildren().add(homeContainer);
+        res.setTop(this.titre());
+        res.setCenter(homeContainer);
         return res;
     }
 
