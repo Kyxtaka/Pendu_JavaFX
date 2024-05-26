@@ -86,6 +86,41 @@ public class Pendu extends Application {
         this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
         this.chargerImages("./img");
+        this.niveaux = new ArrayList<>();
+        this.niveaux.add("Facile");
+        this.niveaux.add("Moyen");
+        this.niveaux.add("Difficile");
+        this.dessin = new ImageView(new Image("pendu0.png"));
+        // Mot Cryptee
+        Dictionnaire dico = new Dictionnaire("/usr/share/dict/french", 3, 10);
+        String mot = dico.choisirMot();
+        this.motCrypte = new Text(mot);
+        // Progressbar
+        this.pg = new ProgressBar(this.modelePendu.getNbEssais());
+        // Clavier
+        ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
+        this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
+        // Le niveau
+        this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
+        // Chronometre
+        this.chrono = new Chronometre();
+        // Panel central
+        this.panelCentral = new BorderPane();
+        // Bouton Parametre
+        this.boutonParametres = new Button();
+        this.boutonParametres.setGraphic(new ImageView(new Image("parametre.png")));
+        //Bouton Maison
+        RetourAccueil retourAccueil = new RetourAccueil(modelePendu, this);
+        this.boutonMaison = new Button();
+        this.boutonMaison.setGraphic(new ImageView(new Image("home.png")));
+        this.boutonMaison.setOnAction(retourAccueil);
+        // Bouton Jouer
+        ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
+        this.bJouer = new Button();
+        this.bJouer.setText("Lancer une partie");
+        this.bJouer.setOnAction(controleLancerPartie);
+        
+        
         // A terminer d'implementer
     }
 
