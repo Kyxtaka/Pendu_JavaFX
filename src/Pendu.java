@@ -13,9 +13,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData ;
-import javafx.scene.control.ButtonType ;
+
 import java.util.List;
 import java.util.Arrays;
 import java.io.File;
@@ -89,6 +88,41 @@ public class Pendu extends Application {
         this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
         this.chargerImages("./img");
+        this.niveaux = new ArrayList<>();
+        this.niveaux.add("Facile");
+        this.niveaux.add("Moyen");
+        this.niveaux.add("Difficile");
+        this.dessin = new ImageView(new Image("pendu0.png"));
+        // Mot Cryptee
+        Dictionnaire dico = new Dictionnaire("/usr/share/dict/french", 3, 10);
+        String mot = dico.choisirMot();
+        this.motCrypte = new Text(mot);
+        // Progressbar
+        this.pg = new ProgressBar(this.modelePendu.getNbEssais());
+        // Clavier
+        ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
+        // this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
+        // Le niveau
+        this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
+        // Chronometre
+        this.chrono = new Chronometre();
+        // Panel central
+        this.panelCentral = new BorderPane();
+        // Bouton Parametre
+        this.boutonParametres = new Button();
+        this.boutonParametres.setGraphic(new ImageView(new Image("parametre.png")));
+        //Bouton Maison
+        RetourAccueil retourAccueil = new RetourAccueil(modelePendu, this);
+        this.boutonMaison = new Button();
+        this.boutonMaison.setGraphic(new ImageView(new Image("home.png")));
+        this.boutonMaison.setOnAction(retourAccueil);
+        // Bouton Jouer
+        ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
+        this.bJouer = new Button();
+        this.bJouer.setText("Lancer une partie");
+        this.bJouer.setOnAction(controleLancerPartie);
+        
+        
         // A terminer d'implementer
     }
 
@@ -97,8 +131,6 @@ public class Pendu extends Application {
      */
     private Scene laScene(){
         BorderPane fenetre = new BorderPane();
-        fenetre.setTop(this.titre());
-        fenetre.setCenter(this.panelCentral);
         return new Scene(fenetre, 800, 1000);
     }
 
@@ -111,30 +143,30 @@ public class Pendu extends Application {
         return banniere;
     }
 
-    // /**
-     // * @return le panel du chronomètre
-     // */
-    // private TitledPane leChrono(){
+    /**
+     * @return le panel du chronomètre
+     */
+    private TitledPane leChrono(){
         // A implementer
-        // TitledPane res = new TitledPane();
-        // return res;
-    // }
+        TitledPane res = new TitledPane();
+        return res;
+    }
 
-    // /**
-     // * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
-     // *         de progression et le clavier
-     // */
-    // private Pane fenetreJeu(){
+    /**
+     * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
+     *         de progression et le clavier
+     */
+    private Pane fenetreJeu(){
         // A implementer
-        // Pane res = new Pane();
-        // return res;
-    // }
-
-    // /**
-     // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
-     // */
-    private Pane fenetreAccueil(){
         Pane res = new Pane();
+        return res;
+    }
+
+    /**
+     * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
+     */
+    private Pane fenetreAccueil(){
+        BorderPane res = new BorderPane();
         VBox homeContainer =  new VBox();
         Button lauchGame  = new Button("Lancer une Partie");
 
@@ -158,7 +190,8 @@ public class Pendu extends Application {
         TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
         
         homeContainer.getChildren().addAll(lauchGame, levelContainer);
-        res.getChildren().add(homeContainer);
+        res.setTop(this.titre());
+        res.setCenter(homeContainer);
         return res;
     }
 
@@ -175,11 +208,13 @@ public class Pendu extends Application {
     }
 
     public void modeAccueil(){
-        // A implementer
+        this.fenetreAccueil();
+        this.majAffichage();
     }
     
     public void modeJeu(){
-        // A implementer
+        this.fenetreJeu();
+        this.majAffichage();
     }
     
     public void modeParametres(){
@@ -204,7 +239,7 @@ public class Pendu extends Application {
      */
     public Chronometre getChrono(){
         // A implémenter
-        return null; // A enlever
+        return this.chrono;
     }
 
     public Alert popUpPartieEnCours(){
