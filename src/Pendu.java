@@ -99,7 +99,7 @@ public class Pendu extends Application {
         this.pg = new ProgressBar(this.modelePendu.getNbEssais());
         // Clavier
         ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
-        this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
+        // this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
         // Le niveau
         this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
         // Chronometre
@@ -141,28 +141,28 @@ public class Pendu extends Application {
         return banniere;
     }
 
-    // /**
-     // * @return le panel du chronomètre
-     // */
-    // private TitledPane leChrono(){
+    /**
+     * @return le panel du chronomètre
+     */
+    private TitledPane leChrono(){
         // A implementer
-        // TitledPane res = new TitledPane();
-        // return res;
-    // }
+        TitledPane res = new TitledPane();
+        return res;
+    }
 
-    // /**
-     // * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
-     // *         de progression et le clavier
-     // */
-    // private Pane fenetreJeu(){
+    /**
+     * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
+     *         de progression et le clavier
+     */
+    private Pane fenetreJeu(){
         // A implementer
-        // Pane res = new Pane();
-        // return res;
-    // }
+        Pane res = new Pane();
+        return res;
+    }
 
-    // /**
-     // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
-     // */
+    /**
+     * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
+     */
     private Pane fenetreAccueil(){
         BorderPane res = new BorderPane();
         VBox homeContainer =  new VBox();
@@ -237,7 +237,7 @@ public class Pendu extends Application {
      */
     public Chronometre getChrono(){
         // A implémenter
-        return null; // A enlever
+        return this.chrono;
     }
 
     public Alert popUpPartieEnCours(){
