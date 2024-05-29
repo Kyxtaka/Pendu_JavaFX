@@ -101,7 +101,7 @@ public class Pendu extends Application {
         this.pg = new ProgressBar(this.modelePendu.getNbEssais());
         // Clavier
         ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
-        // this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
+        this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
         // Le niveau
         this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
         // Chronometre
