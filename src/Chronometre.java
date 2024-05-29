@@ -30,7 +30,13 @@ public class Chronometre extends Text{
      * Ce constructeur créer la Timeline, la KeyFrame et le contrôleur
      */
     public Chronometre(){
-        // A implémenter
+        this.actionTemps = new ControleurChronometre(this);
+        this.keyFrame = new KeyFrame(Duration.millis(1), this.actionTemps);
+        this.timeline = new Timeline();
+        this.timeline.getKeyFrames().add(keyFrame);
+        this.timeline.setCycleCount(Animation.INDEFINITE);
+        this.setText("00:00");
+        this.setFont(new Font(20));
     }
 
     /**
@@ -39,27 +45,28 @@ public class Chronometre extends Text{
      * @param tempsMillisec la durée depuis à afficher
      */
     public void setTime(long tempsMillisec){
-        // A implémenter
+        this.setText(String.format("%02d:%02d", tempsMillisec/6000, (tempsMillisec/1000)%60));
     }
 
     /**
      * Permet de démarrer le chronomètre
      */
     public void start(){
-        // A implémenter
+        this.timeline.play();
     }
 
     /**
      * Permet d'arrêter le chronomètre
      */
     public void stop(){
-        // A implémenter
+        this.timeline.stop();
     }
 
     /**
      * Permet de remettre le chronomètre à 0
      */
     public void resetTime(){
-        // A implémenter
+        this.timeline.stop();
+        this.actionTemps.reset();
     }
 }

@@ -92,7 +92,7 @@ public class Pendu extends Application {
         this.niveaux.add("Facile");
         this.niveaux.add("Moyen");
         this.niveaux.add("Difficile");
-        this.dessin = new ImageView(new Image("pendu0.png"));
+        this.dessin = new ImageView(new Image("file:img/pendu0.png"));
         // Mot Cryptee
         Dictionnaire dico = new Dictionnaire("/usr/share/dict/french", 3, 10);
         String mot = dico.choisirMot();
@@ -110,11 +110,11 @@ public class Pendu extends Application {
         this.panelCentral = new BorderPane();
         // Bouton Parametre
         this.boutonParametres = new Button();
-        this.boutonParametres.setGraphic(new ImageView(new Image("parametre.png")));
+        this.boutonParametres.setGraphic(new ImageView(new Image("file:img/parametres.png")));
         //Bouton Maison
         RetourAccueil retourAccueil = new RetourAccueil(modelePendu, this);
         this.boutonMaison = new Button();
-        this.boutonMaison.setGraphic(new ImageView(new Image("home.png")));
+        this.boutonMaison.setGraphic(new ImageView(new Image("file:img/home.png")));
         this.boutonMaison.setOnAction(retourAccueil);
         // Bouton Jouer
         ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
@@ -148,7 +148,7 @@ public class Pendu extends Application {
      */
     private TitledPane leChrono(){
         // A implementer
-        TitledPane res = new TitledPane();
+        TitledPane res = new TitledPane("Chronomètre",this.chrono);
         return res;
     }
 
@@ -177,13 +177,13 @@ public class Pendu extends Application {
         facileButton.setSelected(true);
         facileButton.setToggleGroup(buttonGroup);
 
-        RadioButton mediumButton =  new RadioButton("Facile") ;
+        RadioButton mediumButton =  new RadioButton("Moyen") ;
         mediumButton.setToggleGroup(buttonGroup);
 
-        RadioButton difficileButton =  new RadioButton("Facile") ;
+        RadioButton difficileButton =  new RadioButton("Dificile") ;
         difficileButton.setToggleGroup(buttonGroup);
 
-        RadioButton expertButton =  new RadioButton("Facile") ;
+        RadioButton expertButton =  new RadioButton("Master") ;
         expertButton.setToggleGroup(buttonGroup);
 
         levelChooser.getChildren().addAll(facileButton,mediumButton,difficileButton,expertButton);
@@ -201,7 +201,7 @@ public class Pendu extends Application {
      */
     private void chargerImages(String repertoire){
         for (int i=0; i<this.modelePendu.getNbErreursMax()+1; i++){
-            File file = new File(repertoire+"/pendu"+i+".png");
+            File file = new File("file:"+repertoire+"/pendu"+i+".png");
             System.out.println(file.toURI().toString());
             this.lesImages.add(new Image(file.toURI().toString()));
         }
@@ -238,7 +238,6 @@ public class Pendu extends Application {
      * @return le chronomètre du jeu
      */
     public Chronometre getChrono(){
-        // A implémenter
         return this.chrono;
     }
 
@@ -250,19 +249,19 @@ public class Pendu extends Application {
         
     public Alert popUpReglesDuJeu(){
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Regle",ButtonType.OK);
         return alert;
     }
     
     public Alert popUpMessageGagne(){
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné ! \n GG", ButtonType.OK);        
         return alert;
     }
     
     public Alert popUpMessagePerdu(){
         // A implementer    
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
         return alert;
     }
 
