@@ -107,7 +107,7 @@ public class Pendu extends Application {
         // Mot Cryptee
         Dictionnaire dico = new Dictionnaire("/usr/share/dict/french", 3, 10);
         String mot = dico.choisirMot();
-        this.motCrypte = new Text(mot);
+        this.motCrypte = new Text(this.modelePendu.getMotCrypte());
 
         // Progressbar
         this.pg = new ProgressBar(this.modelePendu.getNbEssais());
@@ -184,7 +184,8 @@ public class Pendu extends Application {
      */
     private TitledPane leChrono(){
         // A implementer
-        TitledPane res = new TitledPane();
+        TitledPane res = new TitledPane("Chronomètre",this.chrono);
+        this.chrono.start();
         return res;
     }
 
@@ -205,7 +206,7 @@ public class Pendu extends Application {
         // Center
         VBox centerContainer = new VBox();
         centerContainer.setAlignment(Pos.BASELINE_CENTER);
-        this.motCrypte.setText("Ici Mot Mystere a Implementer");
+        // this.motCrypte.setText("Ici Mot Mystere a Implementer");
         this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 32));
         // this.motCrypte.setTextAlignment(Pos.BASELINE_CENTER);
         centerContainer.getChildren().add(this.motCrypte);
@@ -224,13 +225,8 @@ public class Pendu extends Application {
         VBox rightContainer = new VBox();
         this.leNiveau.setText("Niveau A implémenter");;
         this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        TitledPane chronoContainer = new TitledPane();
-        chronoContainer.setText("Chronomètre");
-        Label ChoroAImplementer = new Label("Ici Choro a Implementer");
-        ChoroAImplementer.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-        chronoContainer.setContent(ChoroAImplementer);
         Button resetWordButton = new Button("Nouveau mot");
-        rightContainer.getChildren().addAll(leNiveau,chronoContainer,resetWordButton);
+        rightContainer.getChildren().addAll(leNiveau,this.leChrono(),resetWordButton);
 
         res.setRight(rightContainer);
         res.setCenter(centerContainer);
