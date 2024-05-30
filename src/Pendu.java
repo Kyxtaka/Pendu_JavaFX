@@ -143,6 +143,15 @@ public class Pendu extends Application {
         ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer = new Button("Lancer une partie");
         this.bJouer.setOnAction(controleLancerPartie);
+
+        // Progress Bar
+        this.pg = new ProgressBar();
+        this.pg.setProgress(0.2); //only pour test
+
+        // Clavier
+        String touche = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ-");
+        this.clavier = new Clavier(touche, null, 4);
+
         // A terminer d'implementer
     }
 
@@ -184,15 +193,47 @@ public class Pendu extends Application {
      *         de progression et le clavier
      */
     private Pane fenetreJeu(){
-        // A implementer
+        // A implementer avec les bonne fonctionnalité
+        //motCrypte a implémenté
+        //Niveau a implémenté
+        //Chrono A implémenter
         BorderPane res = new BorderPane();
+
         //top
         res.setTop(this.titre());
+
         // Center
+        VBox centerContainer = new VBox();
+        centerContainer.setAlignment(Pos.BASELINE_CENTER);
+        this.motCrypte.setText("Ici Mot Mystere a Implementer");
+        this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        // this.motCrypte.setTextAlignment(Pos.BASELINE_CENTER);
+        centerContainer.getChildren().add(this.motCrypte);
+        // mise en place de l'image
+        // int imageStatus = 1; //test status image (Permet de choisir une Image) ==> juste pour tester
+        this.dessin.setImage(this.lesImages.get(0));
+        this.dessin.setFitWidth(450); //largeur
+        this.dessin.setFitHeight(650); //hauteur
+        centerContainer.getChildren().add(this.dessin);
+        //affichage Progress bar
+        centerContainer.getChildren().add(this.pg);
+        // Affichage Clavier
+        centerContainer.getChildren().add(this.clavier);
 
         // Right
-        
+        VBox rightContainer = new VBox();
+        this.leNiveau.setText("Niveau A implémenter");;
+        this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        TitledPane chronoContainer = new TitledPane();
+        chronoContainer.setText("Chronomètre");
+        Label ChoroAImplementer = new Label("Ici Choro a Implementer");
+        ChoroAImplementer.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        chronoContainer.setContent(ChoroAImplementer);
+        Button resetWordButton = new Button("Nouveau mot");
+        rightContainer.getChildren().addAll(leNiveau,chronoContainer,resetWordButton);
 
+        res.setRight(rightContainer);
+        res.setCenter(centerContainer);
         return res;
     }
 
@@ -303,8 +344,8 @@ public class Pendu extends Application {
         this.stage = stage;
         this.stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
         this.stage.setScene(this.laScene());
-        this.modeAccueil();
-        // this.modeJeu(); //test only
+        // this.modeAccueil();
+        this.modeJeu(); //test only
         this.stage.show();
     }
 
