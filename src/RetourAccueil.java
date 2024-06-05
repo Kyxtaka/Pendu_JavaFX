@@ -34,9 +34,13 @@ public class RetourAccueil implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         if (!this.modelePendu.gagne()){
-            Alert alert = this.vuePendu.popUpPartieEnCours();
-            if (alert.getResult() == ButtonType.YES){
+            Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
+            // si la réponse est oui
+            if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
                 this.vuePendu.modeAccueil();
+            }
+            else{
+                System.out.println("D'ac !");
             }
         }
     }

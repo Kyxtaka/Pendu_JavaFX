@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 import javafx.event.ActionEvent;
@@ -36,6 +37,8 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         String mot = this.modelePendu.getMotATrouve();
-        
+        Button bouttonLettre = (Button)actionEvent.getTarget();
+        String lettre = bouttonLettre.getText();
+        Set<String> ensemble = HashSet<>();
     }
 }
