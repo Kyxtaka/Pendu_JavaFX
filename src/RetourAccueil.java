@@ -1,5 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
@@ -32,6 +33,11 @@ public class RetourAccueil implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        this.vuePendu.modeAccueil();
+        if (!this.modelePendu.gagne()){
+            Alert alert = this.vuePendu.popUpPartieEnCours();
+            if (alert.getResult() == ButtonType.YES){
+                this.vuePendu.modeAccueil();
+            }
+        }
     }
 }
