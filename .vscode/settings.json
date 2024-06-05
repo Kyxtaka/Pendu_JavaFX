@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "src"
+        "src",
+        "img"
     ],
     "java.project.referencedLibraries": [
         "/usr/share/openjfx/lib/javafx.graphics.jar",
@@ -10,6 +11,5 @@
         "/usr/share/openjfx/lib/javafx.web.jar",
         "/usr/share/openjfx/lib/javafx.controls.jar",
         "/usr/share/openjfx/lib/javafx.base.jar"
-    ],
-    "java.project.outputPath": "bin"
+    ]
 }
