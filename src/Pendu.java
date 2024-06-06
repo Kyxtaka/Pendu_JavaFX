@@ -146,7 +146,7 @@ public class Pendu extends Application {
 
         // Progress Bar
         this.pg = new ProgressBar();
-        this.pg.setProgress(0.2); //only pour test
+        this.pg.setProgress(0.0); //only pour test
 
         // Clavier
         String touche = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ-");
@@ -244,9 +244,10 @@ public class Pendu extends Application {
 
         VBox levelChooser =  new VBox();
         ToggleGroup buttonGroup =  new ToggleGroup();
-
+        ControleurNiveau controleurNiveau = new ControleurNiveau(this.modelePendu);
         for (String  niveau: this.niveaux) {
             RadioButton level = new RadioButton(niveau);
+            level.setOnAction(controleurNiveau);
             if (niveau.equals("Facile")) level.setSelected(true);
             level.setToggleGroup(buttonGroup);
             levelChooser.getChildren().add(level);
@@ -283,12 +284,15 @@ public class Pendu extends Application {
     }
     
     public void modeParametres(){
-        // A implémenter
+        modeParametres();
     }
 
     /** lance une partie */
     public void lancePartie(){
-        // A implementer
+        this.motCrypte.setText(this.modelePendu.getMotCrypte());
+        this.leNiveau.setText(this.modelePendu.getNiveau()+"");
+        this.dessin.setImage(this.lesImages.get(0));
+        modeJeu();
     }
 
     /**
@@ -303,10 +307,9 @@ public class Pendu extends Application {
      * @return le chronomètre du jeu
      */
     public Chronometre getChrono(){
-        // A implémenter
         return this.chrono;
     }
-
+    
     public Alert popUpPartieEnCours(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
         alert.setTitle("Attention");
@@ -315,21 +318,22 @@ public class Pendu extends Application {
         
     public Alert popUpReglesDuJeu(){
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Regle",ButtonType.OK);
         return alert;
     }
     
     public Alert popUpMessageGagne(){
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné ! \n GG", ButtonType.OK);        
         return alert;
     }
     
     public Alert popUpMessagePerdu(){
         // A implementer    
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
         return alert;
     }
+
 
     /**
      * créer le graphe de scène et lance le jeu
@@ -340,8 +344,8 @@ public class Pendu extends Application {
         this.stage = stage;
         this.stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
         this.stage.setScene(this.laScene());
-        // this.modeAccueil();
-        this.modeJeu(); //test only
+        this.modeAccueil();
+        // this.modeJeu(); //test only
         this.stage.show();
     }
 
