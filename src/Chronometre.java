@@ -45,7 +45,7 @@ public class Chronometre extends Text{
      * @param tempsMillisec la durée depuis à afficher
      */
     public void setTime(long tempsMillisec){
-        this.setText(String.format("%02d:%02d", tempsMillisec/6000, (tempsMillisec/1000)%60));
+        this.setText(String.format("%02d:%02d", tempsMillisec/60000, (tempsMillisec/1000)%60));
     }
 
     /**

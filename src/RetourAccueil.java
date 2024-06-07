@@ -38,6 +38,8 @@ public class RetourAccueil implements EventHandler<ActionEvent> {
             // si la réponse est oui
             if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
                 this.vuePendu.modeAccueil();
+                this.modelePendu.setNiveau(0);
+                System.out.println("Retour à l'acceuil");
             }
             else{
                 System.out.println("D'ac !");

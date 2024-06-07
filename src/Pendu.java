@@ -65,7 +65,7 @@ public class Pendu extends Application {
     /**
      * le panel Central qui pourra être modifié selon le mode (accueil ou jeu)
      */
-    private BorderPane panelCentral;
+    // private BorderPane panelCentral;
     /**
      * le bouton Paramètre / Engrenage
      */
@@ -87,6 +87,7 @@ public class Pendu extends Application {
      */ 
     private Scene scene;
     private Stage stage;
+    private int nbLettreAtrouver;
 
 
     /**
@@ -94,65 +95,41 @@ public class Pendu extends Application {
      */
     @Override
     public void init() {
-        this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
+        //init du modele 
+        this.modelePendu = new MotMystere("/usr/share/dict/french", 0, 10,0,10);
+        // init des objet
+        this.motCrypte = new Text("");
+        this.pg = new ProgressBar(this.modelePendu.getNbEssais());
         this.lesImages = new ArrayList<Image>();
         this.chargerImages("img");
+        this.dessin = new ImageView(this.lesImages.get(0));
+        this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
+        this.chrono = new Chronometre();
+
+        // Init des nivreaux
         this.niveaux = new ArrayList<>();
         this.niveaux.add("Facile");
         this.niveaux.add("Moyen");
         this.niveaux.add("Difficile");
         this.niveaux.add("Expert");
-        this.dessin = new ImageView(new Image("file:img/pendu0.png"));
 
-        // Mot Cryptee
-        Dictionnaire dico = new Dictionnaire("/usr/share/dict/french", 3, 10);
-        String mot = dico.choisirMot();
-        this.motCrypte = new Text(this.modelePendu.getMotCrypte());
-
-        // Progressbar
-        this.pg = new ProgressBar(this.modelePendu.getNbEssais());
-
-        // Clavier
-        ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
-        // this.clavier = new Clavier("abcdefghijklmnopqrstuv-",controleLettre,10);
-
-        // Le niveau
-        this.leNiveau = new Text(this.modelePendu.getNiveau()+"");
-
-        // Chronometre
-        this.chrono = new Chronometre();
-
-        // Panel central
-        this.panelCentral = new BorderPane();
-
+        // Init des boutton
         // Bouton Parametre
         ImageView parametres = new ImageView(new Image("file:img/parametres.png", 20,20,true,false));
         this.boutonParametres = new Button("",parametres);  
-
+        this.boutonParametres.setOnAction(null);
         //Bouton Maison
         RetourAccueil retourAccueil = new RetourAccueil(modelePendu, this);
         ImageView maison = new ImageView(new Image("file:img/home.png",20,20,true,false));
         this.boutonMaison = new Button("",maison);
         this.boutonMaison.setOnAction(retourAccueil);
-
         // Bouton Aide règle du jeu
         ImageView info = new ImageView(new Image("file:img/info.png", 20,20,true,false));
         this.boutonInfo = new Button("",info); 
-
         // Bouton Jouer
         ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer = new Button("Lancer une partie");
         this.bJouer.setOnAction(controleLancerPartie);
-
-        // Progress Bar
-        this.pg = new ProgressBar();
-        this.pg.setProgress(0.0); //only pour test
-
-        // Clavier
-        String touche = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ-");
-        this.clavier = new Clavier(touche, null, 4);
-
-        // A terminer d'implementer
     }
 
     /**
@@ -226,6 +203,7 @@ public class Pendu extends Application {
         this.leNiveau.setText("Niveau A implémenter");;
         this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         Button resetWordButton = new Button("Nouveau mot");
+        resetWordButton.setOnAction(new ControleurLancerPartie(modelePendu, this));
         rightContainer.getChildren().addAll(leNiveau,this.leChrono(),resetWordButton);
 
         res.setRight(rightContainer);
@@ -275,31 +253,59 @@ public class Pendu extends Application {
 
     public void modeAccueil(){
         BorderPane fenetre = this.fenetreAccueil();
-        this.majAffichage(fenetre);
+        this.scene.setRoot(fenetre);
+        // this.majAffichage(fenetre);
     }
     
     public void modeJeu(){
         Pane fenetre = this.fenetreJeu();
-        this.majAffichage(fenetre);
+        this.scene.setRoot(fenetre);
+        // this.majAffichage(fenetre);
     }
     
     public void modeParametres(){
         modeParametres();
     }
+    public Clavier getClavier() {
+        return this.clavier;
+    }
 
     /** lance une partie */
     public void lancePartie(){
+        // Init Clavier
+        String touche = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ-");
+        ControleurLettres controleLettre = new  ControleurLettres(modelePendu, this); 
+        this.clavier = new Clavier(touche, controleLettre, 4);
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
         this.leNiveau.setText(this.modelePendu.getNiveau()+"");
         this.dessin.setImage(this.lesImages.get(0));
+        this.pg.setProgress(0.0);
+        this.chrono.resetTime();
+        this.chrono.start();
+        this.nbLettreAtrouver = this.modelePendu.getNbLettresRestantes();
         modeJeu();
     }
 
     /**
      * raffraichit l'affichage selon les données du modèle
      */
-    public void majAffichage(Pane lePane){
-        this.scene.setRoot(lePane);
+    
+    public void majAffichage(){
+        System.out.println(this.nbLettreAtrouver);
+        System.out.println(nbLettreAtrouver == this.modelePendu.getNbLettresRestantes());
+        int nbErreursMax = this.modelePendu.getNbErreursMax();
+        int nbErreursRestantes = this.modelePendu.getNbErreursRestants();
+        int nbErreurs = nbErreursMax - nbErreursRestantes; 
+        // int nbLettreAtrouver = this.modelePendu.getNbLettresRestantes();
+        double poucentage = 1.0/this.modelePendu.getNbLettresRestantes();
+        if (nbLettreAtrouver == this.modelePendu.getNbLettresRestantes()) {
+            this.pg.setProgress(0.0);
+        } else  {
+            System.out.println();
+            this.pg.setProgress(poucentage);
+        }
+        this.motCrypte.setText(this.modelePendu.getMotCrypte());
+        this.dessin.setImage(this.lesImages.get(nbErreurs));
     }
 
     /**
@@ -310,6 +316,7 @@ public class Pendu extends Application {
         return this.chrono;
     }
     
+
     public Alert popUpPartieEnCours(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
         alert.setTitle("Attention");

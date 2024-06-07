@@ -36,9 +36,10 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        String mot = this.modelePendu.getMotATrouve();
-        Button bouttonLettre = (Button)actionEvent.getTarget();
-        String lettre = bouttonLettre.getText();
-        Set<String> ensemble = new HashSet<>();
+        Button bouttonLettre = (Button)actionEvent.getSource();
+        char lettre = bouttonLettre.getText().charAt(0);
+        this.modelePendu.essaiLettre(lettre);
+        this.vuePendu.getClavier().desactiveTouches(this.modelePendu.getLettresEssayees());
+        this.vuePendu.majAffichage();
     }
 }
