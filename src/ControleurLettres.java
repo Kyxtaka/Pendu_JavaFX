@@ -36,9 +36,9 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        String mot = this.modelePendu.getMotATrouve();
         Button bouttonLettre = (Button)actionEvent.getTarget();
-        String lettre = bouttonLettre.getText();
-        Set<String> ensemble = new HashSet<>();
+        char lettre = bouttonLettre.getText().charAt(0);
+        this.modelePendu.essaiLettre(lettre);
+        
     }
 }
