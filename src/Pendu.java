@@ -15,7 +15,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.control.ButtonBar.ButtonData ;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -309,6 +311,11 @@ public class Pendu extends Application {
             this.dessin.setImage(this.lesImages.get(nbErreurs));
         } else {
             this.chrono.stop();
+            String touches = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ-");
+            Set<String> desactiver = new HashSet<>();
+            for (int i =0;i<touches.length();i++){
+                desactiver.add(String.valueOf(touches.charAt(i)));
+            }
             this.popUpMessagePerdu().showAndWait();
         }
         if (this.pg.getProgress() == 100.0){
@@ -349,7 +356,7 @@ public class Pendu extends Application {
     
     public Alert popUpMessagePerdu(){
         // A implementer    
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu !", ButtonType.OK);
         return alert;
     }
 
