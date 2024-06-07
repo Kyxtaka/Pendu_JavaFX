@@ -241,7 +241,7 @@ public class Pendu extends Application {
 
         VBox levelChooser =  new VBox();
         ToggleGroup buttonGroup =  new ToggleGroup();
-        ControleurNiveau controleurNiveau = new ControleurNiveau(modelePendu);
+        ControleurNiveau controleurNiveau = new ControleurNiveau(this.modelePendu);
         for (String  niveau: this.niveaux) {
             RadioButton level = new RadioButton(niveau);
             level.setOnAction(controleurNiveau);
@@ -282,7 +282,7 @@ public class Pendu extends Application {
     }
     
     public void modeParametres(){
-        // A implémenter
+        modeParametres();
     }
 
     /** lance une partie */
@@ -307,7 +307,7 @@ public class Pendu extends Application {
     public Chronometre getChrono(){
         return this.chrono;
     }
-
+    
     public Alert popUpPartieEnCours(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
         alert.setTitle("Attention");
@@ -332,16 +332,19 @@ public class Pendu extends Application {
         return alert;
     }
 
+
     /**
      * créer le graphe de scène et lance le jeu
      * @param stage la fenêtre principale
      */
     @Override
     public void start(Stage stage) {
-        stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
-        stage.setScene(this.laScene());
+        this.stage = stage;
+        this.stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
+        this.stage.setScene(this.laScene());
         this.modeAccueil();
-        stage.show();
+        // this.modeJeu(); //test only
+        this.stage.show();
     }
 
     /**
