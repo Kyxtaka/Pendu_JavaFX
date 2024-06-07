@@ -1,5 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
@@ -32,16 +33,25 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         // A implémenter
-    
-        Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
-        // si la réponse est oui
-        if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
+        Button bouton = (Button)actionEvent.getTarget();
+        String nomBouton = bouton.getText();
+        if (nomBouton.contains("Lancer")){
             this.modelePendu.setMotATrouver();
             this.vuePendu.lancePartie();
             System.out.println("Partie lancée");
+        } else {
+            Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
+            // si la réponse est oui
+            if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
+                this.modelePendu.setMotATrouver();
+                this.vuePendu.lancePartie();
+                System.out.println("Partie lancée");
+            }
+            else{
+                System.out.println("Annulé");
+            }
         }
-        else{
-            System.out.println("D'ac !");
-        }
+    
+        
     }
 }

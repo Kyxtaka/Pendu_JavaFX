@@ -17,7 +17,7 @@ public class ControleurNiveau implements EventHandler<ActionEvent> {
      * @param modelePendu modèle du jeu
      */
     public ControleurNiveau(MotMystere modelePendu) {
-        // A implémenter
+        this.modelePendu = modelePendu;
     }
 
     /**
@@ -29,13 +29,21 @@ public class ControleurNiveau implements EventHandler<ActionEvent> {
         RadioButton radiobouton = (RadioButton) actionEvent.getTarget();
         String nomDuRadiobouton = radiobouton.getText();
         if (nomDuRadiobouton.equals("Facile")){
-            new MotMystere("/usr/share/dict/french",1,2,MotMystere.FACILE,10);
+            this.modelePendu.setNiveau(MotMystere.FACILE);
+            this.modelePendu.setMotATrouver();
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Moyen")){
-            new MotMystere("/usr/share/dict/french",3,5,MotMystere.MOYEN,10);
+            this.modelePendu.setNiveau(MotMystere.MOYEN);
+            this.modelePendu.setMotATrouver();
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Difficile")){
-            new MotMystere("/usr/share/dict/french",5,8,MotMystere.DIFFICILE,10);
+            this.modelePendu.setNiveau(MotMystere.DIFFICILE);
+            this.modelePendu.setMotATrouver();
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Expert")){
-            new MotMystere("/usr/share/dict/french",9,15,MotMystere.EXPERT,10);
+            this.modelePendu.setNiveau(MotMystere.EXPERT);
+            this.modelePendu.setMotATrouver();
+            System.out.println(this.modelePendu.getMotATrouve());
         }
         System.out.println(nomDuRadiobouton);
     }

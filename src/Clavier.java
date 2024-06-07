@@ -48,6 +48,7 @@ public class Clavier extends TilePane{
             for (String str : touchesDesactivees){
                 if (bouton.getText().contains(str)){
                     bouton.setOnAction(null);
+                    bouton.setDisable(true);
                 }
             }
         }
