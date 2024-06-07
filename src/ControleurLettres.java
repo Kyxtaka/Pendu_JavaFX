@@ -39,6 +39,6 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
         String mot = this.modelePendu.getMotATrouve();
         Button bouttonLettre = (Button)actionEvent.getTarget();
         String lettre = bouttonLettre.getText();
-        Set<String> ensemble = HashSet<>();
+        Set<String> ensemble = new HashSet<>();
     }
 }
