@@ -29,17 +29,20 @@ public class ControleurNiveau implements EventHandler<ActionEvent> {
         RadioButton radiobouton = (RadioButton) actionEvent.getTarget();
         String nomDuRadiobouton = radiobouton.getText();
         if (nomDuRadiobouton.equals("Facile")){
-            this.modelePendu = new MotMystere("/usr/share/dict/french",3,4,MotMystere.FACILE,10);
             this.modelePendu.setMotATrouver();
+            this.modelePendu.setNiveau(0);
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Moyen")){
-            this.modelePendu = new MotMystere("/usr/share/dict/french",5,7,MotMystere.MOYEN,10);
             this.modelePendu.setMotATrouver();
+            this.modelePendu.setNiveau(1);
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Difficile")){
-            this.modelePendu = new MotMystere("/usr/share/dict/french",8,10,MotMystere.DIFFICILE,10);
             this.modelePendu.setMotATrouver();
+            this.modelePendu.setNiveau(2);
+            System.out.println(this.modelePendu.getMotATrouve());
         } else if (nomDuRadiobouton.equals("Expert")){
-            this.modelePendu = new MotMystere("/usr/share/dict/french",11,20,MotMystere.EXPERT,10);
             this.modelePendu.setMotATrouver();
+            this.modelePendu.setNiveau(3);
             System.out.println(this.modelePendu.getMotATrouve());
         }
         System.out.println(nomDuRadiobouton);
