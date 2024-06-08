@@ -11,11 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.control.ButtonBar.ButtonData ;
-
 import java.util.List;
-import java.util.Arrays;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -166,6 +162,7 @@ public class Pendu extends Application {
     private TitledPane leChrono(){
         // A implementer
         TitledPane res = new TitledPane("Chronomètre",this.chrono);
+        VBox.setMargin(res, new Insets(20));
         this.chrono.start();
         return res;
     }
@@ -183,10 +180,12 @@ public class Pendu extends Application {
         VBox centerContainer = new VBox();
         centerContainer.setAlignment(Pos.BASELINE_CENTER);
         this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        
         // this.motCrypte.setTextAlignment(Pos.BASELINE_CENTER);
         centerContainer.getChildren().add(this.motCrypte);
         // mise en place de l'image
         this.dessin.setImage(this.lesImages.get(0));
+        
         this.dessin.setFitWidth(450); //largeur
         this.dessin.setFitHeight(650); //hauteur
         centerContainer.getChildren().add(this.dessin);
@@ -198,13 +197,19 @@ public class Pendu extends Application {
         // Right
         VBox rightContainer = new VBox();
         this.leNiveau.setText("Difficulté "+this.niveaux.get(this.modelePendu.getNiveau()));
-        this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 32));
         Button resetWordButton = new Button("Nouveau mot");
         resetWordButton.setOnAction(new ControleurLancerPartie(modelePendu, this));
         rightContainer.getChildren().addAll(leNiveau,this.leChrono(),resetWordButton);
-
+        VBox.setMargin(this.motCrypte, new Insets(20));
+        VBox.setMargin(this.dessin, new Insets(10));
+        VBox.setMargin(this.leNiveau, new Insets(20));
+        VBox.setMargin(resetWordButton, new Insets(20));
+        VBox.setMargin(this.pg, new Insets(10));
+        BorderPane.setMargin(rightContainer, new Insets(25,0,0,0));
         res.setRight(rightContainer);
         res.setCenter(centerContainer);
+        
         return res;
     }
 
