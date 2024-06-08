@@ -1,7 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+// import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle ;
@@ -34,6 +34,8 @@ public class Clavier extends TilePane{
         for (int i = 0;i<touches.length();i++){
             Button bouton = new Button(String.valueOf(touches.charAt(i)));
             bouton.setOnAction(actionTouches);
+            bouton.setShape(new Circle(1.5));
+            bouton.setMaxSize(3,3);
             this.clavier.add(bouton);
             this.getChildren().add(bouton);
         }
