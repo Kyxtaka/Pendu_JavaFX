@@ -226,9 +226,7 @@ public class Pendu extends Application {
             levelChooser.getChildren().add(level);
             VBox.setMargin(level, new Insets(2.5));
         }
-    
         TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
-        
         homeContainer.getChildren().addAll(lauchGame, levelContainer);
         VBox.setMargin(lauchGame,new Insets(25,20,10,20));
         VBox.setMargin(levelContainer,new Insets(20));
