@@ -124,6 +124,7 @@ public class Pendu extends Application {
         // Bouton Aide règle du jeu
         ImageView info = new ImageView(new Image("file:img/info.png", 20,20,true,false));
         this.boutonInfo = new Button("",info); 
+        this.boutonInfo.setOnAction(new ControleurInfos(this));
         // Bouton Jouer
         ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer = new Button("Lancer une partie");
@@ -146,11 +147,16 @@ public class Pendu extends Application {
         BorderPane banniere =  new BorderPane();  
         Label titre = new Label("Jeu du Pendu");
         titre.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        BorderPane.setMargin(titre, new Insets(20));
         HBox buttonContainer = new HBox();
         buttonContainer.getChildren().addAll(this.boutonMaison,this.boutonParametres,this.boutonInfo);
         banniere.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, Insets.EMPTY)));
         banniere.setLeft(titre);
         banniere.setRight(buttonContainer);
+        HBox.setMargin(this.boutonMaison, new Insets(0,2.5,0,2.5));
+        HBox.setMargin(this.boutonParametres, new Insets(0,2.5,0,2.5));
+        HBox.setMargin(this.boutonInfo, new Insets(0,2.5,0,2.5));
+        BorderPane.setMargin(buttonContainer,new Insets(20));
         return banniere;
     }
 
@@ -169,12 +175,7 @@ public class Pendu extends Application {
      *         de progression et le clavier
      */
     private Pane fenetreJeu(){
-        // A implementer avec les bonne fonctionnalité
-        //motCrypte a implémenté
-        //Niveau a implémenté
-        //Chrono A implémenter
         BorderPane res = new BorderPane();
-
         //top
         res.setTop(this.titre());
 
@@ -213,9 +214,7 @@ public class Pendu extends Application {
     private BorderPane fenetreAccueil(){
         BorderPane res = new BorderPane();
         VBox homeContainer =  new VBox();
-        // Button lauchGame  = new Button("Lancer une Partie");
         Button lauchGame = this.bJouer;
-
         VBox levelChooser =  new VBox();
         ToggleGroup buttonGroup =  new ToggleGroup();
         ControleurNiveau controleurNiveau = new ControleurNiveau(this.modelePendu);
@@ -225,11 +224,14 @@ public class Pendu extends Application {
             if (niveau.equals("Facile")) level.setSelected(true);
             level.setToggleGroup(buttonGroup);
             levelChooser.getChildren().add(level);
+            VBox.setMargin(level, new Insets(2.5));
         }
     
         TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
         
         homeContainer.getChildren().addAll(lauchGame, levelContainer);
+        VBox.setMargin(lauchGame,new Insets(25,20,10,20));
+        VBox.setMargin(levelContainer,new Insets(20));
         res.setTop(this.titre());
         res.setCenter(homeContainer);
         return res;
