@@ -8,6 +8,7 @@ public class ControleurChronometre implements EventHandler<ActionEvent> {
     /**
      * temps enregistré lors du dernier événement
      */
+    @SuppressWarnings("unused")
     private long tempsPrec;
     /**
      * temps écoulé depuis le début de la mesure

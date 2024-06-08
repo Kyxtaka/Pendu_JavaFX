@@ -11,11 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.control.ButtonBar.ButtonData ;
-
 import java.util.List;
-import java.util.Arrays;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -124,6 +120,7 @@ public class Pendu extends Application {
         // Bouton Aide règle du jeu
         ImageView info = new ImageView(new Image("file:img/info.png", 20,20,true,false));
         this.boutonInfo = new Button("",info); 
+        this.boutonInfo.setOnAction(new ControleurInfos(this));
         // Bouton Jouer
         ControleurLancerPartie controleLancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer = new Button("Lancer une partie");
@@ -146,11 +143,16 @@ public class Pendu extends Application {
         BorderPane banniere =  new BorderPane();  
         Label titre = new Label("Jeu du Pendu");
         titre.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        BorderPane.setMargin(titre, new Insets(20));
         HBox buttonContainer = new HBox();
         buttonContainer.getChildren().addAll(this.boutonMaison,this.boutonParametres,this.boutonInfo);
         banniere.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, Insets.EMPTY)));
         banniere.setLeft(titre);
         banniere.setRight(buttonContainer);
+        HBox.setMargin(this.boutonMaison, new Insets(0,2.5,0,2.5));
+        HBox.setMargin(this.boutonParametres, new Insets(0,2.5,0,2.5));
+        HBox.setMargin(this.boutonInfo, new Insets(0,2.5,0,2.5));
+        BorderPane.setMargin(buttonContainer,new Insets(20));
         return banniere;
     }
 
@@ -158,8 +160,8 @@ public class Pendu extends Application {
      * @return le panel du chronomètre
      */
     private TitledPane leChrono(){
-        // A implementer
         TitledPane res = new TitledPane("Chronomètre",this.chrono);
+        VBox.setMargin(res, new Insets(20));
         this.chrono.start();
         return res;
     }
@@ -169,12 +171,7 @@ public class Pendu extends Application {
      *         de progression et le clavier
      */
     private Pane fenetreJeu(){
-        // A implementer avec les bonne fonctionnalité
-        //motCrypte a implémenté
-        //Niveau a implémenté
-        //Chrono A implémenter
         BorderPane res = new BorderPane();
-
         //top
         res.setTop(this.titre());
 
@@ -182,10 +179,12 @@ public class Pendu extends Application {
         VBox centerContainer = new VBox();
         centerContainer.setAlignment(Pos.BASELINE_CENTER);
         this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        
         // this.motCrypte.setTextAlignment(Pos.BASELINE_CENTER);
         centerContainer.getChildren().add(this.motCrypte);
         // mise en place de l'image
         this.dessin.setImage(this.lesImages.get(0));
+        
         this.dessin.setFitWidth(450); //largeur
         this.dessin.setFitHeight(650); //hauteur
         centerContainer.getChildren().add(this.dessin);
@@ -197,13 +196,19 @@ public class Pendu extends Application {
         // Right
         VBox rightContainer = new VBox();
         this.leNiveau.setText("Difficulté "+this.niveaux.get(this.modelePendu.getNiveau()));
-        this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 32));
         Button resetWordButton = new Button("Nouveau mot");
         resetWordButton.setOnAction(new ControleurLancerPartie(modelePendu, this));
         rightContainer.getChildren().addAll(leNiveau,this.leChrono(),resetWordButton);
-
+        VBox.setMargin(this.motCrypte, new Insets(20));
+        VBox.setMargin(this.dessin, new Insets(10));
+        VBox.setMargin(this.leNiveau, new Insets(20));
+        VBox.setMargin(resetWordButton, new Insets(20));
+        VBox.setMargin(this.pg, new Insets(10));
+        BorderPane.setMargin(rightContainer, new Insets(25,0,0,0));
         res.setRight(rightContainer);
         res.setCenter(centerContainer);
+        
         return res;
     }
 
@@ -213,9 +218,7 @@ public class Pendu extends Application {
     private BorderPane fenetreAccueil(){
         BorderPane res = new BorderPane();
         VBox homeContainer =  new VBox();
-        // Button lauchGame  = new Button("Lancer une Partie");
         Button lauchGame = this.bJouer;
-
         VBox levelChooser =  new VBox();
         ToggleGroup buttonGroup =  new ToggleGroup();
         ControleurNiveau controleurNiveau = new ControleurNiveau(this.modelePendu);
@@ -225,11 +228,12 @@ public class Pendu extends Application {
             if (niveau.equals("Facile")) level.setSelected(true);
             level.setToggleGroup(buttonGroup);
             levelChooser.getChildren().add(level);
+            VBox.setMargin(level, new Insets(2.5));
         }
-    
         TitledPane levelContainer =  new TitledPane("Niveau de difficulté", levelChooser);
-        
         homeContainer.getChildren().addAll(lauchGame, levelContainer);
+        VBox.setMargin(lauchGame,new Insets(25,20,10,20));
+        VBox.setMargin(levelContainer,new Insets(20));
         res.setTop(this.titre());
         res.setCenter(homeContainer);
         return res;
@@ -250,13 +254,11 @@ public class Pendu extends Application {
     public void modeAccueil(){
         BorderPane fenetre = this.fenetreAccueil();
         this.scene.setRoot(fenetre);
-        // this.majAffichage(fenetre);
     }
     
     public void modeJeu(){
         Pane fenetre = this.fenetreJeu();
         this.scene.setRoot(fenetre);
-        // this.majAffichage(fenetre);
     }
     
     public void modeParametres(){
@@ -320,26 +322,51 @@ public class Pendu extends Application {
     
 
     public Alert popUpPartieEnCours(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(
+            Alert.AlertType.CONFIRMATION,
+            "La partie est en cours!"+
+            System.lineSeparator()+
+            "Etes-vous sûr de l'interrompre ?",
+            ButtonType.YES, ButtonType.NO
+        );
         alert.setTitle("Attention");
         return alert;
     }
         
     public Alert popUpReglesDuJeu(){
-        // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Regle",ButtonType.OK);
+        Alert alert = new Alert(
+            Alert.AlertType.INFORMATION,
+            "1 - Essayer de deviner le mot Crypté"+
+            System.lineSeparator()+
+            "2 - Vous avez droit à 10 erreur au total"+
+            System.lineSeparator()+
+            "3 - Si vous avez trouvé le bon mot la partie est terminé et vous avez gagné"+
+            System.lineSeparator()+
+            "4 - Si le personnage dessiné est pendu, vous avez perdu et la partie est terminée"
+            ,ButtonType.OK
+        );
+        alert.setTitle("Règles du jeu");
         return alert;
     }
     
     public Alert popUpMessageGagne(){
-        // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné ! \n GG", ButtonType.OK);        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+            "Vous avez gagné !"+System.lineSeparator()+
+            "GG"+System.lineSeparator()
+            +System.lineSeparator()
+            +"Une nouvelle partie va débuter", ButtonType.OK
+        );
+        alert.setTitle("Victoire");        
         return alert;
     }
     
-    public Alert popUpMessagePerdu(){
-        // A implementer    
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
+    public Alert popUpMessagePerdu() {  
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu !"+System.lineSeparator()+
+            "Looser"+System.lineSeparator()
+            +System.lineSeparator()
+            +"Une nouvelle partie va débuter", ButtonType.OK
+        );
+        alert.setTitle("Défaite");
         return alert;
     }
 
@@ -354,7 +381,6 @@ public class Pendu extends Application {
         this.stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
         this.stage.setScene(this.laScene());
         this.modeAccueil();
-        // this.modeJeu(); //test only
         this.stage.show();
     }
 
