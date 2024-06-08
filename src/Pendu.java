@@ -87,8 +87,6 @@ public class Pendu extends Application {
      */ 
     private Scene scene;
     private Stage stage;
-    private int nbLettreAtrouver;
-
 
     /**
      * initialise les attributs (créer le modèle, charge les images, crée le chrono ...)
@@ -280,26 +278,20 @@ public class Pendu extends Application {
         this.pg.setProgress(0.0);
         this.chrono.resetTime();
         this.chrono.start();
-        this.nbLettreAtrouver = this.modelePendu.getNbLettresRestantes();
         modeJeu();
     }
 
     /**
      * raffraichit l'affichage selon les données du modèle
      */
-    
     public void majAffichage(){
-        System.out.println(this.nbLettreAtrouver);
-        System.out.println(nbLettreAtrouver == this.modelePendu.getNbLettresRestantes());
-        int nbErreursMax = this.modelePendu.getNbErreursMax();
         int nbErreursRestantes = this.modelePendu.getNbErreursRestants();
-        int nbErreurs = nbErreursMax - nbErreursRestantes; 
-        // int nbLettreAtrouver = this.modelePendu.getNbLettresRestantes();
-        double poucentage = 1.0/this.modelePendu.getNbLettresRestantes();
-        if (nbLettreAtrouver == this.modelePendu.getNbLettresRestantes()) {
+        int nbErreurs = this.modelePendu.getNbErreursMax() - nbErreursRestantes; 
+        double poucentage = 1.0/nbErreursRestantes;
+        if (this.modelePendu.getNbLettresAtrouver() == this.modelePendu.getNbLettresRestantes()) {
             this.pg.setProgress(0.0);
         } else  {
-            System.out.println();
+            System.out.println(poucentage);
             this.pg.setProgress(poucentage);
         }
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
@@ -308,10 +300,13 @@ public class Pendu extends Application {
         if (nbErreurs <= this.modelePendu.getNbErreursMax()) this.dessin.setImage(this.lesImages.get(nbErreurs));
         if (this.modelePendu.gagne() || this.modelePendu.perdu()) {
            this.chrono.stop();System.out.println("execute");
-           if (this.modelePendu.gagne()) this.popUpMessageGagne().showAndWait();
-           else this.popUpMessagePerdu().showAndWait();
-           this.modelePendu.setMotATrouver();
-           this.lancePartie();
+            if (this.modelePendu.gagne()) {
+                this.pg.setProgress(1.0);
+                this.popUpMessageGagne().showAndWait();
+            }
+            else this.popUpMessagePerdu().showAndWait();
+            this.modelePendu.setMotATrouver();
+            this.lancePartie();
         }
     }
 
