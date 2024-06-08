@@ -350,12 +350,12 @@ public class Pendu extends Application {
     }
     
     public Alert popUpMessageGagne(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné ! \n GG", ButtonType.OK);        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné !"+System.lineSeparator()+"GG", ButtonType.OK);        
         return alert;
     }
     
     public Alert popUpMessagePerdu(){  
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu !"+System.lineSeparator()+"looser", ButtonType.OK);
         return alert;
     }
 
