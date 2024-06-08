@@ -160,7 +160,6 @@ public class Pendu extends Application {
      * @return le panel du chronomètre
      */
     private TitledPane leChrono(){
-        // A implementer
         TitledPane res = new TitledPane("Chronomètre",this.chrono);
         VBox.setMargin(res, new Insets(20));
         this.chrono.start();
@@ -255,13 +254,11 @@ public class Pendu extends Application {
     public void modeAccueil(){
         BorderPane fenetre = this.fenetreAccueil();
         this.scene.setRoot(fenetre);
-        // this.majAffichage(fenetre);
     }
     
     public void modeJeu(){
         Pane fenetre = this.fenetreJeu();
         this.scene.setRoot(fenetre);
-        // this.majAffichage(fenetre);
     }
     
     public void modeParametres(){
@@ -325,25 +322,39 @@ public class Pendu extends Application {
     
 
     public Alert popUpPartieEnCours(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(
+            Alert.AlertType.CONFIRMATION,
+            "La partie est en cours!"+
+            System.lineSeparator()+
+            "Etes-vous sûr de l'interrompre ?",
+            ButtonType.YES, ButtonType.NO
+        );
         alert.setTitle("Attention");
         return alert;
     }
         
     public Alert popUpReglesDuJeu(){
-        // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Regle",ButtonType.OK);
+        Alert alert = new Alert(
+            Alert.AlertType.INFORMATION,
+            "1 - Essayer de deviner le mot Crypté"+
+            System.lineSeparator()+
+            "2 - Vous avez droit à 10 erreur au total"+
+            System.lineSeparator()+
+            "3 - Si vous avez trouvé le bon mot la partie est terminé et vous avez gagné"+
+            System.lineSeparator()+
+            "4 - Si le personnage dessiné est pendu, vous avez perdu et la partie est terminée"
+            ,ButtonType.OK
+        );
+        alert.setTitle("Règles du jeu");
         return alert;
     }
     
     public Alert popUpMessageGagne(){
-        // A implementer
         Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez gagné ! \n GG", ButtonType.OK);        
         return alert;
     }
     
-    public Alert popUpMessagePerdu(){
-        // A implementer    
+    public Alert popUpMessagePerdu(){  
         Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous avez perdu ! \n looser", ButtonType.OK);
         return alert;
     }
@@ -359,7 +370,6 @@ public class Pendu extends Application {
         this.stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
         this.stage.setScene(this.laScene());
         this.modeAccueil();
-        // this.modeJeu(); //test only
         this.stage.show();
     }
 
