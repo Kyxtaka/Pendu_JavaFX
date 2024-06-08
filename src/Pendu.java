@@ -183,12 +183,10 @@ public class Pendu extends Application {
         // Center
         VBox centerContainer = new VBox();
         centerContainer.setAlignment(Pos.BASELINE_CENTER);
-        // this.motCrypte.setText("Ici Mot Mystere a Implementer");
         this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 32));
         // this.motCrypte.setTextAlignment(Pos.BASELINE_CENTER);
         centerContainer.getChildren().add(this.motCrypte);
         // mise en place de l'image
-        // int imageStatus = 1; //test status image (Permet de choisir une Image) ==> juste pour tester
         this.dessin.setImage(this.lesImages.get(0));
         this.dessin.setFitWidth(450); //largeur
         this.dessin.setFitHeight(650); //hauteur
@@ -200,7 +198,7 @@ public class Pendu extends Application {
 
         // Right
         VBox rightContainer = new VBox();
-        this.leNiveau.setText("Niveau A implémenter");;
+        this.leNiveau.setText("Difficulté "+this.niveaux.get(this.modelePendu.getNiveau()));
         this.leNiveau.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         Button resetWordButton = new Button("Nouveau mot");
         resetWordButton.setOnAction(new ControleurLancerPartie(modelePendu, this));
@@ -305,7 +303,16 @@ public class Pendu extends Application {
             this.pg.setProgress(poucentage);
         }
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
-        this.dessin.setImage(this.lesImages.get(nbErreurs));
+        System.out.println(nbErreurs);
+        System.out.println(this.modelePendu.getNbErreursRestants());
+        if (nbErreurs <= this.modelePendu.getNbErreursMax()) this.dessin.setImage(this.lesImages.get(nbErreurs));
+        if (this.modelePendu.gagne() || this.modelePendu.perdu()) {
+           this.chrono.stop();System.out.println("execute");
+           if (this.modelePendu.gagne()) this.popUpMessageGagne().showAndWait();
+           else this.popUpMessagePerdu().showAndWait();
+           this.modelePendu.setMotATrouver();
+           this.lancePartie();
+        }
     }
 
     /**
