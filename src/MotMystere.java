@@ -52,6 +52,10 @@ public class MotMystere {
      * dictionnaire dans lequel on choisit les mots
      */
     private Dictionnaire dict;
+    /**
+     * nombre de lettres a trouver
+     */
+    private int nbLettreAtrouver;
 
 
     /**
@@ -124,7 +128,8 @@ public class MotMystere {
             // dernière lettre cachée
         }
         this.nbEerreursMax = nbErreursMax;
-         this.nbErreursRestantes = nbErreursMax;
+        this.nbErreursRestantes = nbErreursMax;
+        this.nbLettreAtrouver = this.nbLettresRestantes;
     }
 
     /**
@@ -203,6 +208,9 @@ public class MotMystere {
      */
     public int getNbErreursRestants(){
         return this.nbErreursRestantes;
+    }
+    public int getNbLettresAtrouver() {
+        return this.nbLettreAtrouver;
     }
 
     /**
